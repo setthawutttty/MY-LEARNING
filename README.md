@@ -174,3 +174,27 @@ genReport(
  type
 );
 ```
+# xlsx
+```
+npm install xlsx
+
+import * as XLSX from "xlsx";
+
+function exportToExcel() {
+  //จำลองข้อมู,
+  const data = [
+    { name: "John", age: 25, country: "USA" },
+    { name: "Alice", age: 30, country: "UK" },
+  ];
+  const headers = ["ชื่อ", "อายุ", "ประเทศ"]; // หัวคอลัมน์ภาษาไทย
+  const worksheet = XLSX.utils.json_to_sheet(data, {
+    header: ["name", "age", "country"],
+  });
+
+  //แทรกหัวคอลัมน์ภาษาไทย (ใช้ A1, B1, C1 แทน)
+  XLSX.utils.sheet_add_aoa(worksheet, [headers], { origin: "A1" });
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "ข้อมูล"); //ชื่อไฟล เเละ ชื่อ sheet
+  XLSX.writeFile(workbook, "ข้อมูล.xlsx");
+```
