@@ -198,3 +198,61 @@ function exportToExcel() {
   XLSX.utils.book_append_sheet(workbook, worksheet, "ข้อมูล"); //ชื่อไฟล เเละ ชื่อ sheet
   XLSX.writeFile(workbook, "ข้อมูล.xlsx");
 ```
+# อัพเดตค่าเเบบ reactive
+```
+----------
+# ตัวลูก
+----------
+<script setup lang="ts">
+import { defineProps, defineEmits, reactive, watch } from "vue";
+import type { QuerySting } from "@/types"; // Import Type
+
+const props = defineProps<{ modelValue: QuerySting }>(); // รับค่าจากพาเรนต์
+const emit = defineEmits(["update:modelValue"]); // ใช้ emit เพื่ออัปเดตค่า
+
+// ใช้ reactive เพื่อเก็บค่าของ querySting
+const querySting = reactive({ ...props.modelValue });
+
+// ใช้ watch เพื่ออัปเดตค่ากลับไปที่พาเรนต์เมื่อมีการเปลี่ยนแปลง
+watch(querySting, (newValue) => {
+  emit("update:modelValue", newValue);
+}, { deep: true });
+</script>
+
+<template>
+  <q-select
+    v-model="querySting.status"
+    :options="optionStatus"
+    option-value="id"
+    option-label="name"
+    label="สถานะ"
+  />
+</template>
+----------
+# ตัวแม่
+----------
+<script setup lang="ts">
+import { reactive } from "vue";
+import ChildComponent from "./ChildComponent.vue";
+import type { QuerySting } from "@/types";
+
+const querySting = reactive<QuerySting>({
+  year: "2025",
+  type: "SICK",
+  status: "PENDING",
+  page: 1,
+  pageSize: 10,
+  sortBy: "dateSendLeave",
+  descending: true,
+  keyword: "",
+  profileType: "ALL",
+});
+</script>
+
+<template>
+  <ChildComponent v-model="querySting" />
+</template>
+
+
+```
+
