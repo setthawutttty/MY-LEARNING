@@ -1,4 +1,35 @@
 # setup AirFlow on Linux  
+
+```
+sudo dnf update -y
+sudo dnf install vim -y
+```
+
+- เช็ค version
+```
+vim --version
+```
+```
+sudo dnf install -y dnf-utils
+sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+- เปิดใช้งาน service
+```
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# ทดสอบ
+sudo docker run hello-world
+```
+
+- user เข้า docker
+```
+sudo usermod -aG docker $USER
+```
+
+
 ## โครงสร้าง คราวๆ ไฟล์
 ```
 airflow-project/
@@ -19,6 +50,12 @@ airflow-project/
 └─ README.md
 
 ```
+
+- ดึงไฟล์ dockercompose ของ airflow
+```
+curl -LfO 'https://airflow.apache.org/docs/apache-airflow/3.1.5/docker-compose.yaml'
+```
+
 - สร้าง folder
 ```
 mkdir -p ./dags ./logs ./plugins ./config
