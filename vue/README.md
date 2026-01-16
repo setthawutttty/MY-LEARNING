@@ -1,3 +1,48 @@
+# install vue vite quasar
+```
+npm create vite@latest
+```
+quasar
+```
+npm install quasar @quasar/extras
+npm install -D @quasar/vite-plugin
+npm install -D sass-embedded
+```
+
+file vite.config
+```
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+
+export default defineConfig({
+  plugins: [
+    vue({
+      template: { transformAssetUrls }
+    }),
+    quasar()
+  ]
+})
+
+```
+main.ts
+```
+import { createApp } from 'vue'
+import { Quasar } from 'quasar'
+import App from './App.vue'
+
+import 'quasar/src/css/index.sass'
+import '@quasar/extras/material-icons/material-icons.css'
+
+createApp(App)
+  .use(Quasar)
+  .mount('#app')
+
+```
+
+
+
+
 # Basic Import
 ```
 import { ref, reactive, watch, onMounted } from "vue";
